@@ -9,20 +9,21 @@ $(document).ready(() => {
 function getMovies(searchText){
   axios.get("https://api.themoviedb.org/3/search/movie?api_key=1d32ca02f3859ca30e1d655dad101aa9&query="+searchText)
     .then((response) => {
-      console.log(response);
-      let movies = response.data.Search;
+      let movies = response.data.results;
+      console.log(movies);
       let output = '';
-      $.each(movies, (index, movie) => {
+      $.each(movies, (id, movie) => {
         output += `
           <div class="col-md-3">
             <div class="well text-center">
-              <img src="${movie.poster_path}">
+              <img src="${'https://image.tmdb.org/t/p/w600_and_h900_bestv2' +movie.poster_path}">
               <h5>${movie.original_title}</h5>
               <a onclick="movieSelected('${movie.id}')" class="btn btn-primary" href="#">Movie Details</a>
             </div>
           </div>
         `;
       });
+      $("#movies").html(output);
     })
     .catch((error) => {
       console.log(error);
